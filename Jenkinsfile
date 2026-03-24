@@ -7,8 +7,16 @@ pipeline {
             steps {
                 sh '''
                 python3 --version
-                python3 -m pip install --upgrade pip --user || true
-                python3 -m pip install --user -r requirements.txt
+
+                # Install pip manually
+                curl -sS https://bootstrap.pypa.io/get-pip.py -o get-pip.py
+                python3 get-pip.py --user
+
+                # Add pip to PATH
+                export PATH=$HOME/.local/bin:$PATH
+
+                pip3 install --upgrade pip
+                pip3 install -r requirements.txt
                 '''
             }
         }
@@ -16,7 +24,8 @@ pipeline {
         stage('Test') {
             steps {
                 sh '''
-                python3 -m pytest
+                export PATH=$HOME/.local/bin:$PATH
+                pytest
                 '''
             }
         }

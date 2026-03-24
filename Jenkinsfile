@@ -8,15 +8,13 @@ pipeline {
                 sh '''
                 python3 --version
 
-                # Install pip manually
                 curl -sS https://bootstrap.pypa.io/get-pip.py -o get-pip.py
-                python3 get-pip.py --user
+                python3 get-pip.py --user --break-system-packages
 
-                # Add pip to PATH
                 export PATH=$HOME/.local/bin:$PATH
 
-                pip3 install --upgrade pip
-                pip3 install -r requirements.txt
+                pip3 install --upgrade pip --break-system-packages
+                pip3 install -r requirements.txt --break-system-packages
                 '''
             }
         }
